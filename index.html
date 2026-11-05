@@ -1,0 +1,27 @@
+<html>
+<head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const search = document.getElementById('search');
+  const results = document.getElementById('results');
+  search.addEventListener('input', ev => {
+    const query = search.value;
+    if (query === '' || query === '/') {
+      results.innerHTML = '';
+      return;
+    }
+    fetch(`/?q=${query}`)
+      .then(rsp => rsp.text())
+      .then(text => text.split('\n').map(s => `<b>${query.trim()}</b>${s}`))
+      .then(lines => { results.innerHTML = lines.join('<br>'); });
+  });
+  search.focus();
+});
+</script>
+</head>
+<body>
+  <label>Search:</label>
+  <input id="search" name="search" type="text" />
+  <pre id="results"></pre>
+</body>
+</html>
