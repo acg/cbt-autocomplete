@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+IFS="$(printf ' \r')"
+read -r verb path version cr
+test "$verb" = 'GET' || exit 40
+test "$version" = 'HTTP/1.1' || exit 40
+while read -r key value cr; do test -n "$key" || break; done
+printf '%s\n' "$path" 1>&2
+case "$path" in
+  /)
+    printf 'HTTP/1.0 200 OK\r\n'
+    printf 'Content-Type: text/html\r\n'
+    printf 'Content-Length: %d\r\n' "$(wc -c ./index.html | cut -f1 -d' ')"
+    printf '\r\n'
+    exec cat ./index.html
+    ;;
+  /?q=*)
+    printf 'HTTP/1.0 200 OK\r\n'
+    printf 'Content-Type: text/plain\r\n'
+    printf '\r\n'
+    printf 'complete %s\n' "${path##/?q=}" | sed -e 's/%20/ /g' | cbt -m autocomplete.dump | head -1000
+    ;;
+  *)
+    printf 'HTTP/1.0 404 Not Found\r\n'
+    printf '\r\n'
+    ;;
+esac
