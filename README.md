@@ -2,6 +2,8 @@
 
 Uses a [public dataset of Amazon queries](https://huggingface.co/datasets/amazon/AmazonQAC).
 
+https://github.com/user-attachments/assets/48d65808-149f-4802-883e-ee25aef1b95f
+
 ### Requirements
 
 - [`cbt`](https://github.com/SuperScript/cbt) for fast autocomplete.
