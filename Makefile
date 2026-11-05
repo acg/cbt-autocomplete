@@ -29,3 +29,5 @@ datafiles.list :
 	curl -L -C - "$(DATAURL)"/$@?download=true > $@
 
 .DELETE_ON_ERROR :
+
+.SECONDARY :
